@@ -1,3 +1,4 @@
 local.conf
 .vscode
 *.code-workspace
+.tmpname

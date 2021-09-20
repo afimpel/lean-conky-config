@@ -136,9 +136,9 @@ end
 -- see https://matthiaslee.com/dynamically-changing-conky-network-interface/
 local TPL_IFACE =
     [[${if_existing /sys/class/net/<IFACE>/operstate up}#
-${lua font icon_s  ${voffset -1}${font :size=7}▼}${font}  ${downspeed <IFACE>} ${alignc -22}${lua font h2 {<IFACE>}}${font}#
-${alignr}${upspeed <IFACE>} ${lua font icon_s  ${voffset -2}${font :size=7}▲}${font}
-${color3}${downspeedgraph <IFACE> 32,130} ${alignr}${upspeedgraph <IFACE> 32,130 }${color}#
+${lua font icon_s  ${voffset -1}}${font}  ${downspeed <IFACE>} ${alignc -22}${lua font h2 {<IFACE>}}${font}#
+${alignr}${upspeed <IFACE>} ${lua font icon_s { }}${font}
+${color3}${downspeedgraph <IFACE> 32,155} ${alignr}${upspeedgraph <IFACE> 32,155 }${color}#
 ${endif}]]
 
 local function _conky_ifaces()
@@ -159,7 +159,7 @@ end
 
 -- dynamically show mounted disks
 local TPL_DISK =
-    [[${lua font h2 {%s}}${font} ${alignc -8}%s / %s [%s] ${alignr}%s%%
+    [[${lua font icon_s {} {}} ${lua font h2 {%s}}${font} ${alignc -8}%s / %s [%s] ${alignr}%s%%
 ${color3}${lua_bar 4 percent_ratio %s %s}${color}]]
 
 local function _conky_disks()
@@ -198,4 +198,28 @@ end
 
 function conky_disks(interv)
     return _interval_call(interv, _conky_disks)
+end
+
+local TPL_core =
+    [[${lua font h2 {<cores>}}${color}]]
+local TPL_coreSingle =
+    [[${cpugraph cpu0 30,320}]]
+local function _conky_graph_cpus(x)
+    local rendered = {}
+    local cores = 0
+    cores = tonumber(sys_call("lscpu | grep 'CPU(s):' | awk  '{print $2}'", true))
+    if cores < 0 then
+        rendered[1] = TPL_core:gsub("<cores>", cores)
+    else 
+        rendered[1] = TPL_coreSingle:gsub("<cores>", cores)
+    end
+    if #rendered > 0 then
+        return table.concat(rendered, "\n")
+    else
+        return "${font}(no mounted disk found)"
+    end
+end
+
+function conky_graph_cpus(interv)
+    return _interval_call(interv, _conky_graph_cpus)
 end
