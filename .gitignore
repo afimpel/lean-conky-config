@@ -2,3 +2,4 @@ local.conf
 .vscode
 *.code-workspace
 .tmpname
+*.json
