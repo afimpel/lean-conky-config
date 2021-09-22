@@ -136,16 +136,16 @@ end
 -- see https://matthiaslee.com/dynamically-changing-conky-network-interface/
 local TPL_IFACE =
 	[[${if_existing /sys/class/net/<IFACE>/operstate up}#
-${voffset 3}${lua font icon_l {}}${voffset -7} ${lua font h2 {<IFACE>}}
-${lua font icon_x  ${voffset -1}}${font}  ${downspeed <IFACE>} ${alignc -22}${lua font h2 {<IFACE>}}${font}#
-${alignr}${upspeed <IFACE>} ${lua font icon_x { }}${font}${color}#
-${endif}]]
+${voffset 5}${color5}${lua font icon_l {}}${color} ${voffset -3} ${lua font h1 {<IFACE>:}}${font}#
+${alignr}${voffset -5}${color4} ${upspeed <IFACE>}  ${lua font icon_x }${font}${color}
+${alignr}${color5}${downspeed <IFACE>}  ${lua font icon_x }${font}${color}${endif}]]
+
 local TPL_IFACEWIFI =
 	[[${if_existing /sys/class/net/<IFACE>/operstate up}#
-${voffset 5}${color5}${lua font icon_l {}}${color} ${voffset -7} ${lua font h2 {<IFACE>:}}#
-${alignc}${color1}${wireless_essid <IFACE>}${font}#
+${voffset 5}${color5}${lua font icon_l {}}${color} ${voffset -3} ${lua font h1 {<IFACE>:}}${font}${voffset -5}#
+${alignc -46}${color1}${wireless_essid <IFACE>}${font}#
 ${alignr}${color4} ${upspeed <IFACE>}  ${lua font icon_x }${font}${color}
-${alignc} ${wireless_link_qual_perc <IFACE>} % / ${wireless_bitrate <IFACE>}#
+${alignc -46} ${wireless_link_qual_perc <IFACE>} % / ${wireless_bitrate <IFACE>}#
 ${alignr}${color5}${downspeed <IFACE>}  ${lua font icon_x }${font}${color}${endif}]]
 
 local function _conky_ifaces()
