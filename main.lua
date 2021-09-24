@@ -220,11 +220,11 @@ end
 
 -- dynamically show mounted disks
 local TPL_DISK =
-	[[${lua font icon_l { ${voffset -3}} {}} ${lua font h2 {%s}}${font} ${alignc -90}%s / %s [%s] ${alignr}${color0}%s%%${color}
-	${lua font h6 {${voffset 3} %s}}
+	[[${lua font icon_l { ${voffset -3}} {}} ${lua font h2 {%s}}${font} ${alignc -80}%s / %s [ ${lua font h5bold {%s}}${font} ] ${alignr}${color0}%s%%${color}
+	${lua font h6 {${voffset 3} %s}}${font}
 ${color3}${lua_bar 4 percent_ratio %s %s}${color}]]
 local TPL_DISKmini =
-	[[${lua font icon_x {} {}} ${lua font h4 {%s}}${font} ( ${lua font h6 {%s}} ) ${alignc -90}%s / %s [%s] ${alignr}${color0}%s%%${color}]]
+	[[${lua font icon_x {} {}} ${lua font h4 {%s}}${font} ( ${lua font h6 {%s}}${font}${voffset -1} ) ${alignc -80}%s / %s [ ${lua font h5bold {%s}}${font} ] ${alignr}${color0}%s%%${color}]]
 local type_disk = "full"
 
 local function _conky_disks()
