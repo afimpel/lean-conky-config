@@ -2,7 +2,7 @@
 
 -- override `conky.config` here
 local_config = {
-    alignment = "top_left", -- dock panel to left side
+    alignment = "middle_right", -- dock panel to left side
     -- COLORS --
     color0 = "turquoise", -- clock color
     color1 = "orange", -- heading 1 color
@@ -14,4 +14,15 @@ local_config = {
 -- override `conky.fonts` here
 local_fonts = {
     date = "serif:normal:size=18"
+}
+-- override `desktop_section` here
+local_desktop_section = {
+    cpu = 1,
+    memory = 1,
+    storage = 1,
+    network = 1,
+    extras = 1,
+    count_table_cpu = 5,
+    count_table_mem = 5,
+    count_table_io = 5
 }

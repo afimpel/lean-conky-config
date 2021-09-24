@@ -73,7 +73,7 @@ end
 
 -- render top (cpu) line
 function conky_top_cpu_line(ord)
-	local _H = "${color2}${lua font h2 {PID ${goto 48}PROCESS ${goto 220}MEM% ${alignr}CPU%}}${font}${color}"
+	local _H = "${color2}${lua font h3 {PID ${goto 48}PROCESS ${goto 220}MEM% ${alignr}CPU%}}${font}${color}"
 	if ord == "header" then
 		return conky_parse(_H)
 	end
@@ -94,7 +94,7 @@ end
 
 -- render top_mem line
 function conky_top_mem_line(ord)
-	local _H = "${color2}${lua font h2 {PID ${goto 48}PROCESS ${goto 220}CPU%${alignr}MEM%}}${font}${color}"
+	local _H = "${color2}${lua font h3 {PID ${goto 48}PROCESS ${goto 220}CPU%${alignr}MEM%}}${font}${color}"
 	if ord == "header" then
 		return conky_parse(_H)
 	end
@@ -115,7 +115,7 @@ end
 
 -- render top_io line
 function conky_top_io_line(ord)
-	local _H = "${color2}${lua font h2 {PROCESS ${goto 48}PID ${alignr}READ/WRITE}}${font}${color}"
+	local _H = "${color2}${lua font h3 {PID ${goto 48}PROCESS ${alignr}READ/WRITE}}${font}${color}"
 	if ord == "header" then
 		return conky_parse(_H)
 	end
@@ -128,6 +128,54 @@ function conky_top_io_line(ord)
 	)
 end
 
+function conky_top_table(section, counts)
+	local set_tables = {
+		cpu = { 
+			c0='mem',
+			c1='cpu',
+			tpl = "%s ${goto 48}%s${goto 220}%s${alignr}%s",
+			header = "${color2}${lua font h3 {PID ${goto 48}PROCESS ${goto 220}MEM% ${alignr}CPU%}}${font}${color}"
+		},
+		mem = {
+			c0 = 'cpu',
+			c1 = 'mem',
+			tpl = "%s ${goto 48}%s${goto 220}%s${alignr}%s",
+			header = "${color2}${lua font h3 {PID ${goto 48}PROCESS ${goto 220}CPU%${alignr}MEM%}}${font}${color}"
+		},
+		io = {
+			c0='io_read',
+			c1='io_write',
+			tpl = "%s ${goto 48}%s${alignr}%s / %s",
+			header = "${color2}${lua font h3 {PID ${goto 48}PROCESS ${alignr}READ / WRITE}}${font}${color}"
+		},
+	}
+	local function _t(ord, type, padding_len)
+		return _top_val(ord, "mem", type, padding_len, "right")
+	end
+	local rendered = {}
+	rendered[1] = conky_parse(set_tables[section].header)
+	--print(section, set_tables[section].c0, set_tables[section].c1, counts)
+
+	for i = 1,tonumber(counts) do 
+		rendered[i+1] = conky_parse(
+			string.format(
+				set_tables[section].tpl,
+				_t(i,"pid"),
+				_t(i,"name"),
+				_t(i,set_tables[section].c0),
+				_t(i,set_tables[section].c1)
+			)
+		)
+	end
+	if tonumber(counts) > 0 then
+		return table.concat(rendered, "\n")
+	else
+		rendered[1] = conky_parse("${color} .")
+		return table.concat(rendered, "\n")
+	end
+
+end
+
 local function _interval_call(interv, ...)
 	return conky_parse(utils.interval_call(tonumber(interv or 0), ...))
 end
@@ -136,17 +184,19 @@ end
 -- see https://matthiaslee.com/dynamically-changing-conky-network-interface/
 local TPL_IFACE =
 	[[${if_existing /sys/class/net/<IFACE>/operstate up}#
-${voffset 5}${color5}${lua font icon_l {}}${color} ${voffset -3} ${lua font h1 {<IFACE>:}}${font}#
+${voffset 5}${color6}${lua font icon_l {}}${color} ${voffset -3} ${lua font h3 {<IFACE>:}}${font}#
 ${alignr}${voffset -5}${color4} ${upspeed <IFACE>}  ${lua font icon_x }${font}${color}
-${alignr}${color5}${downspeed <IFACE>}  ${lua font icon_x }${font}${color}${endif}]]
+${alignr}${color5}${downspeed <IFACE>}  ${lua font icon_x }${font}
+${voffset -3}${color9}${hr 1}${color}${voffset -4}${endif}]]
 
 local TPL_IFACEWIFI =
 	[[${if_existing /sys/class/net/<IFACE>/operstate up}#
-${voffset 5}${color5}${lua font icon_l {}}${color} ${voffset -3} ${lua font h1 {<IFACE>:}}${font}${voffset -5}#
+${voffset 5}${color6}${lua font icon_l {}}${color} ${voffset -3} ${lua font h3 {<IFACE>:}}${font}${voffset -5}#
 ${alignc -46}${color1}${wireless_essid <IFACE>}${font}#
 ${alignr}${color4} ${upspeed <IFACE>}  ${lua font icon_x }${font}${color}
 ${alignc -46} ${wireless_link_qual_perc <IFACE>} % / ${wireless_bitrate <IFACE>}#
-${alignr}${color5}${downspeed <IFACE>}  ${lua font icon_x }${font}${color}${endif}]]
+${alignr}${color5}${downspeed <IFACE>}  ${lua font icon_x }${font}
+${voffset -3}${color9}${hr 1}${color}${voffset -4}${endif}]]
 
 local function _conky_ifaces()
 	local rendered = {}
@@ -173,6 +223,9 @@ local TPL_DISK =
 	[[${lua font icon_l { ${voffset -3}} {}} ${lua font h2 {%s}}${font} ${alignc -90}%s / %s [%s] ${alignr}${color0}%s%%${color}
 	${lua font h6 {${voffset 3} %s}}
 ${color3}${lua_bar 4 percent_ratio %s %s}${color}]]
+local TPL_DISKmini =
+	[[${lua font icon_x {} {}} ${lua font h4 {%s}}${font} ( ${lua font h6 {%s}} ) ${alignc -90}%s / %s [%s] ${alignr}${color0}%s%%${color}]]
+local type_disk = "full"
 
 local function _conky_disks()
 	local rendered = {}
@@ -188,20 +241,35 @@ local function _conky_disks()
 		if media then
 			name = media
 		elseif name == utils.env.HOME then
-			name = "${lua font icon_s  ${voffset -4}${font :bold:size=11}⌂}"
+			name = "${lua font icon_s ⌂}"
 		end
-		rendered[i] =
-			string.format(
-			TPL_DISK,
-			label,
-			used_h,
-			size_h,
-			disk.type,
-			utils.percent_ratio(disk.used, disk.size),
-			name,
-			disk.used,
-			disk.size
-		)
+		if type_disk == "full" then
+			rendered[i] =
+				string.format(
+				TPL_DISK,
+				label,
+				used_h,
+				size_h,
+				disk.type,
+				utils.percent_ratio(disk.used, disk.size),
+				name,
+				disk.used,
+				disk.size
+			)
+		else
+			rendered[i] =
+				string.format(
+				TPL_DISKmini,
+				label,
+				name,
+				used_h,
+				size_h,
+				disk.type,
+				utils.percent_ratio(disk.used, disk.size),
+				disk.used,
+				disk.size
+			)
+		end
 	end
 	if #rendered > 0 then
 		return table.concat(rendered, "\n")
@@ -210,28 +278,21 @@ local function _conky_disks()
 	end
 end
 
-function conky_disks(interv)
+function conky_disks(interv, parms)
+	type_disk = parms
 	return _interval_call(interv, _conky_disks)
 end
 
 local TPL_core =
-[[${lua font h2 {${color}CPU<cores>:${alignc} ${color2}${freq_g <cores>} Ghz ${alignr}${color0}${cpu cpu<cores>}% ${color}${cpubar cpu<cores> 5,100}}}${color}]]
+[[${lua font h3 {${color}CPU<cores>:${alignc} ${color2}${freq_g <cores>} Ghz ${alignr}${color0}${cpu cpu<cores>}% ${color}${cpubar cpu<cores> 5,100}}}${color}]]
 local function _conky_cpus_cores(x)
 	local rendered = {}
-	local cores = 0
+	local cores = 1
 	cores = tonumber(sys_call("lscpu | grep 'CPU(s):' | awk  '{print $2}'", true))
-	if cores > 0 then
-		for i = 1,cores do 
-			rendered[i] = TPL_core:gsub("<cores>", i-1)
-		end
-	else 
-		rendered[1] = TPL_core:gsub("<cores>", 0)
+	for i = 1,cores do 
+		rendered[i] = TPL_core:gsub("<cores>", i-1)
 	end
-	if #rendered > 0 then
-		return table.concat(rendered, "\n")
-	else
-		return "${font}(no mounted disk found)"
-	end
+	return table.concat(rendered, "\n")
 end
 
 function conky_cpus_cores(interv)
