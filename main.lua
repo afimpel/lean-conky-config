@@ -221,7 +221,7 @@ end
 -- dynamically show mounted disks
 local TPL_DISK =
 	[[${lua font icon_l { ${voffset -3}} {}} ${lua font h2 {%s}}${font} ${alignc -80}%s / %s [ ${lua font h5bold {%s}}${font} ] ${alignr}${color0}%s%%${color}
-	${lua font h6 {${voffset 3} %s}}${font}
+${lua font h6 {${voffset 3} %s}}${font}${alignr}${lua font h6 {%s}}${font}
 ${color3}${lua_bar 4 percent_ratio %s %s}${color}]]
 local TPL_DISKmini =
 	[[${lua font icon_x {} {}} ${lua font h4 {%s}}${font} ( ${lua font h6 {%s}}${font}${voffset -1} ) ${alignc -80}%s / %s [ ${lua font h5bold {%s}}${font} ] ${alignr}${color0}%s%%${color}]]
@@ -252,6 +252,7 @@ local function _conky_disks()
 				size_h,
 				disk.type,
 				utils.percent_ratio(disk.used, disk.size),
+				disk.source,
 				name,
 				disk.used,
 				disk.size
@@ -261,7 +262,7 @@ local function _conky_disks()
 				string.format(
 				TPL_DISKmini,
 				label,
-				name,
+				disk.source,
 				used_h,
 				size_h,
 				disk.type,
