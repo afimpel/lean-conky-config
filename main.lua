@@ -218,6 +218,34 @@ function conky_ifaces(interv)
 	return _interval_call(interv, _conky_ifaces)
 end
 
+local TPL_IP =
+	[[${lua font icon_x {}} ${lua font h6 {<IPADRESS>}}${font}]]
+
+local TPL_IPWIFI =
+	[[${lua font icon_x {}} ${lua font h6 {<IPADRESS>}}${font}]]
+
+local function _conky_getip()
+	local rendered = {}
+	for i, iface in ipairs(utils.enum_ifaces_full()) do
+		local _cmd = "ip -4 -j -p addr show ".. iface[1] .." | grep local | cut -d '\"' -f4"
+		local __ip = utils.sys_call(_cmd, true)
+		if iface[2] ~= "wifi" then
+			rendered[i] = TPL_IP:gsub("<IPADRESS>", __ip)
+		else
+			rendered[i] = TPL_IPWIFI:gsub("<IPADRESS>", __ip)
+		end
+	end
+	if #rendered > 0 then
+		return table.concat(rendered, "\n")
+	else
+		return "${font}(no active network interface found)"
+	end
+end
+
+function conky_getip(interv)
+	return _interval_call(interv, _conky_getip)
+end
+
 -- dynamically show mounted disks
 local TPL_DISK =
 	[[${lua font icon_l { ${voffset -3}} {}} ${lua font h2 {%s}}${font} ${alignc -80}%s / %s [ ${lua font h5bold {%s}}${font} ] ${alignr}${color0}%s%%${color}
