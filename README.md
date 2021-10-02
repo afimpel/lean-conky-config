@@ -1,4 +1,4 @@
-# Lean Conky Config (v0.6.2)
+# Lean Conky Config (v0.6.2r2)
 
 Lean Conky Config (LCC) is, well, a lean [Conky](https://github.com/brndnmtthws/conky/wiki) config that just works.
 
@@ -15,9 +15,9 @@ sudo apt install conky
 ```
 For other operating systems, refer to [Conky documentation](https://github.com/brndnmtthws/conky/wiki/Installation).
 
-To install LCC, just download the [ZIP](https://github.com/jxai/lean-conky-config/archive/master.zip) and decompress it into any directory you like. Alternatively, clone the repository:
+To install LCC, just download the [ZIP](https://github.com/afimpel/lean-conky-config/archive/master.zip) and decompress it into any directory you like. Alternatively, clone the repository:
 ``` bash
-git clone https://github.com/jxai/lean-conky-config [/path/to/lean-conky-config]
+git clone https://github.com/afimpel/lean-conky-config [/path/to/lean-conky-config]
 ```
 
 If `~/.config/conky` doesn't exist yet, you may simply use that path which is for the default Conky config.
