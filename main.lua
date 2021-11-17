@@ -315,27 +315,27 @@ end
 local TPL_core =
 [[${lua font h3 {${color}CPU<cores>:}}#
 ${alignc}${font} ${color2}${freq_g <cores>} Ghz #
-${alignr}${color0}${cpu cpu<cores>}% #
-${color}${cpubar cpu<cores> 7,100}${color}]]
+${alignr}${color8}${cpu cpu<cores>}% #
+${color3}${cpubar cpu<cores> 7,100}${color}]]
 
 local TPL_core1 =
-[[${lua font h3 {${color}CPU<cores0>:  }}${font}${color0}${cpu cpu<cores0>}%#
- ${alignr -8}${voffset -3}${lua font h3 {${color}CPU<cores1>:  }}${font}${color0}${cpu cpu<cores1>}%
- ${color2}${freq_g <cores0>} Ghz#
- ${alignr -11}${freq_g <cores1>} Ghz
- ${color}${cpubar cpu<cores0> 5,85}#
- ${alignr 4}${cpubar cpu<cores1> 5,85}]]
+[[${lua font h3 {${color}CPU<cores0>:}}${font}#
+ ${alignr}${voffset -3}${lua font h3 {${color}CPU<cores1>:}}${font}
+ ${color8}${cpu cpu<cores0>}%${color} / ${color2}${freq_g <cores0>} Ghz#
+ ${alignr}${color8}${cpu cpu<cores1>}%${color} / ${color2}${freq_g <cores1>} Ghz
+ ${color3}${cpubar cpu<cores0> 5,170}#
+ ${alignr 4}${cpubar cpu<cores1> 5,170}]]
 
 local TPL_core2 =
-[[${lua font h3 {${color}CPU<cores0>:  }}${font}${color0}${cpu cpu<cores0>}%#
-${goto 90}${voffset -3}${lua font h3 {${color}CPU<cores1>:  }}${font}${color0}${cpu cpu<cores1>}%#
-${alignr -8}${voffset -3}${lua font h3 {${color}CPU<cores2>:  }}${font}${color0}${cpu cpu<cores2>}%#
-${alignr -8}${voffset -3}${lua font h3 {${color}CPU<cores3>:  }}${font}${color0}${cpu cpu<cores3>}%
+[[${lua font h3 {${color}CPU<cores0>:  }}${font}${color8}${cpu cpu<cores0>}%#
+${goto 90}${voffset -3}${lua font h3 {${color}CPU<cores1>:  }}${font}${color8}${cpu cpu<cores1>}%#
+${goto 187}${voffset -3}${lua font h3 {${color}CPU<cores2>:  }}${font}${color8}${cpu cpu<cores2>}%#
+${goto 277}${voffset -3}${lua font h3 {${color}CPU<cores3>:  }}${font}${color8}${cpu cpu<cores3>}%
 ${color2}${freq_g <cores0>} Ghz#
 ${goto 93}${freq_g <cores1>} Ghz#
 ${alignr -11}${freq_g <cores2>} Ghz#
 ${goto 191}${freq_g <cores3>} Ghz
-${color}${cpubar cpu<cores0> 5,85}#
+${color3}${cpubar cpu<cores0> 5,85}#
  ${cpubar cpu<cores1> 5,85}#
 ${alignr 4}${cpubar cpu<cores2> 5,85}#
  ${cpubar cpu<cores3> 5,85}${color}]]
@@ -349,14 +349,14 @@ ${alignr 4}${cpubar cpu<cores2> 5,85}#
 		if cores%4 < 1 then
 			cores2 = cores/4
 			for i = 1,cores2 do 
-				ii=i*4
-				rendered[i] = TPL_core2:gsub("<cores0>", ii-1):gsub("<cores1>", ii):gsub("<cores2>", ii+1):gsub("<cores3>", ii+3)
+				ii=(i-1)*4
+				rendered[i] = TPL_core2:gsub("<cores0>", ii):gsub("<cores1>", ii+1):gsub("<cores2>", ii+2):gsub("<cores3>", ii+3)
 			end
 		else
 			cores2 = cores/2
 			for i = 1,cores2 do 
-				ii=i*2
-				rendered[i] = TPL_core1:gsub("<cores0>", ii-1):gsub("<cores1>", ii)
+				ii=(i-1)*2
+				rendered[i] = TPL_core1:gsub("<cores0>", ii):gsub("<cores1>", ii+1)
 			end
 		end
 	else
