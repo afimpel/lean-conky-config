@@ -8,6 +8,12 @@ local_config = {
     color1 = "orange", -- heading 1 color
     color2 = "dodgerblue", -- heading 2 color
     color3 = "limegreen", -- chart color
+	color4 = "red",
+	color5 = "green",
+    color6 = "silver",
+    color7 = "white",
+    color8 = "white",
+    color9 = "#111111",
     default_color = "white" -- text color
 }
 

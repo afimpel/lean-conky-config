@@ -313,13 +313,54 @@ function conky_disks(interv, parms)
 end
 
 local TPL_core =
-[[${lua font h3 {${color}CPU<cores>:${alignc} ${color2}${freq_g <cores>} Ghz ${alignr}${color0}${cpu cpu<cores>}% ${color}${cpubar cpu<cores> 5,100}}}${color}]]
-local function _conky_cpus_cores(x)
+[[${lua font h3 {${color}CPU<cores>:}}#
+${alignc}${font} ${color2}${freq_g <cores>} Ghz #
+${alignr}${color0}${cpu cpu<cores>}% #
+${color}${cpubar cpu<cores> 7,100}${color}]]
+
+local TPL_core1 =
+[[${lua font h3 {${color}CPU<cores0>:  }}${font}${color0}${cpu cpu<cores0>}%#
+ ${alignr -8}${voffset -3}${lua font h3 {${color}CPU<cores1>:  }}${font}${color0}${cpu cpu<cores1>}%
+ ${color2}${freq_g <cores0>} Ghz#
+ ${alignr -11}${freq_g <cores1>} Ghz
+ ${color}${cpubar cpu<cores0> 5,85}#
+ ${alignr 4}${cpubar cpu<cores1> 5,85}]]
+
+local TPL_core2 =
+[[${lua font h3 {${color}CPU<cores0>:  }}${font}${color0}${cpu cpu<cores0>}%#
+${goto 90}${voffset -3}${lua font h3 {${color}CPU<cores1>:  }}${font}${color0}${cpu cpu<cores1>}%#
+${alignr -8}${voffset -3}${lua font h3 {${color}CPU<cores2>:  }}${font}${color0}${cpu cpu<cores2>}%#
+${alignr -8}${voffset -3}${lua font h3 {${color}CPU<cores3>:  }}${font}${color0}${cpu cpu<cores3>}%
+${color2}${freq_g <cores0>} Ghz#
+${goto 93}${freq_g <cores1>} Ghz#
+${alignr -11}${freq_g <cores2>} Ghz#
+${goto 191}${freq_g <cores3>} Ghz
+${color}${cpubar cpu<cores0> 5,85}#
+ ${cpubar cpu<cores1> 5,85}#
+${alignr 4}${cpubar cpu<cores2> 5,85}#
+ ${cpubar cpu<cores3> 5,85}${color}]]
+ 
+ local function _conky_cpus_cores(x)
 	local rendered = {}
 	local cores = 1
 	cores = tonumber(sys_call("lscpu | grep 'CPU(s):' | awk  '{print $2}'", true))
-	for i = 1,cores do 
-		rendered[i] = TPL_core:gsub("<cores>", i-1)
+	
+	if cores > 4 then
+		if cores%4 < 1 then
+			cores2 = cores/4
+			for i = 1,cores2 do 
+				rendered[i] = TPL_core2:gsub("<cores0>", i-1):gsub("<cores1>", i):gsub("<cores2>", i+1):gsub("<cores3>", i+3)
+			end
+		else
+			cores2 = cores/2
+			for i = 1,cores2 do 
+				rendered[i] = TPL_core1:gsub("<cores0>", i-1):gsub("<cores1>", i)
+			end
+		end
+	else
+		for i = 1,cores do 
+			rendered[i] = TPL_core:gsub("<cores>", i-1)
+		end
 	end
 	return table.concat(rendered, "\n")
 end
