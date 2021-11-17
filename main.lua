@@ -349,12 +349,14 @@ ${alignr 4}${cpubar cpu<cores2> 5,85}#
 		if cores%4 < 1 then
 			cores2 = cores/4
 			for i = 1,cores2 do 
-				rendered[i] = TPL_core2:gsub("<cores0>", i-1):gsub("<cores1>", i):gsub("<cores2>", i+1):gsub("<cores3>", i+3)
+				ii=i*4
+				rendered[i] = TPL_core2:gsub("<cores0>", ii-1):gsub("<cores1>", ii):gsub("<cores2>", ii+1):gsub("<cores3>", ii+3)
 			end
 		else
 			cores2 = cores/2
 			for i = 1,cores2 do 
-				rendered[i] = TPL_core1:gsub("<cores0>", i-1):gsub("<cores1>", i)
+				ii=i*2
+				rendered[i] = TPL_core1:gsub("<cores0>", ii-1):gsub("<cores1>", ii)
 			end
 		end
 	else
