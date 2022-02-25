@@ -201,7 +201,7 @@ ${voffset -3}${color9}${hr 1}${color}${voffset -4}${endif}]]
 local function _conky_ifaces()
 	local rendered = {}
 	for i, iface in ipairs(utils.enum_ifaces_full()) do
-		if iface[2] ~= "wifi" then
+		if iface[2] ~= "wlan" then
 			rendered[i] = TPL_IFACE:gsub("<IFACE>", iface[1])
 		else
 			rendered[i] = TPL_IFACEWIFI:gsub("<IFACE>", iface[1])
@@ -343,8 +343,8 @@ ${alignr 4}${cpubar cpu<cores2> 5,85}#
  local function _conky_cpus_cores(x)
 	local rendered = {}
 	local cores = 1
-	cores = tonumber(sys_call("lscpu | grep 'CPU(s):' | awk  '{print $2}'", true))
-	
+	cores = tonumber(sys_call("grep cores /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'", true))
+
 	if cores > 4 then
 		if cores%4 < 1 then
 			cores2 = cores/4

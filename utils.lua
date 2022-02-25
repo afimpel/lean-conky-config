@@ -28,7 +28,7 @@ local function split(str, sep)
 function enum_ifaces_full()
 	local _in_docker = in_docker()
 	local ifaces = {}
-	for i, device in ipairs(sys_call("nmcli -g common device status | grep ':connected:'")) do
+	for i, device in ipairs(sys_call("bash ./netlist.sh")) do
 		local lines = split(device, ":")
 		table.insert(ifaces, lines)
 	end
