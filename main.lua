@@ -343,7 +343,7 @@ ${alignr 4}${cpubar cpu<cores2> 5,85}#
  local function _conky_cpus_cores(x)
 	local rendered = {}
 	local cores = 1
-	cores = tonumber(sys_call("grep cores /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'", true))
+	cores = tonumber(sys_call("lscpu | grep 'CPU(s):' | head -1 | awk  '{print $2}'", true))
 
 	if cores > 4 then
 		if cores%4 < 1 then
