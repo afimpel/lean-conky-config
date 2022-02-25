@@ -227,12 +227,10 @@ local TPL_IPWIFI =
 local function _conky_getip()
 	local rendered = {}
 	for i, iface in ipairs(utils.enum_ifaces_full()) do
-		local _cmd = "ip -4 -j -p addr show ".. iface[1] .." | grep local | cut -d '\"' -f4"
-		local __ip = utils.sys_call(_cmd, true)
-		if iface[2] ~= "wifi" then
-			rendered[i] = TPL_IP:gsub("<IPADRESS>", __ip)
+		if iface[2] ~= "wlan" then
+			rendered[i] = TPL_IP:gsub("<IPADRESS>", iface[3])
 		else
-			rendered[i] = TPL_IPWIFI:gsub("<IPADRESS>", __ip)
+			rendered[i] = TPL_IPWIFI:gsub("<IPADRESS>", iface[3])
 		end
 	end
 	if #rendered > 0 then
