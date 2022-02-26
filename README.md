@@ -2,7 +2,7 @@
 
 Lean Conky Config (LCC) is, well, a lean [Conky](https://github.com/brndnmtthws/conky/wiki) config that just works.
 
-![Screenshot](./screenshot.jpg?raw=true "Screenshot")
+![Screenshot](./conkyEvo.png?raw=true "Screenshot")
 
 As shown in the screenshot above, LCC offers an essential collection of system information, cleanly organized into several sections. The layout is fairly self-explanatory.
 
@@ -53,7 +53,7 @@ Colors can be customized through standard Conky settings.
 
 To make it easy to customize fonts, LCC implements a **named fonts** technique. The fonts for different elements are defined in the `conky.fonts` variable (not supported by Conky per se).
 
-Check `local.conf.example` to see how colors and fonts can be customized. For full reference, dig `conky.conf`.
+Check `local.conf.example` to see how colors, workspaces section and fonts can be customized. For full reference, dig `conky.conf`.
 
 ## More Information
 For reference of Conky setting variables, check its [documentation](http://conky.sourceforge.net/config_settings.html), or `man` page:
