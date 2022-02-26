@@ -1,4 +1,4 @@
-# Lean Conky Config (v0.6.2r2)
+# myConky (v0.6.3r2) --> Fork [Lean Conky Config](https://github.com/jxai/lean-conky-config)
 
 Lean Conky Config (LCC) is, well, a lean [Conky](https://github.com/brndnmtthws/conky/wiki) config that just works.
 
@@ -15,16 +15,16 @@ sudo apt install conky
 ```
 For other operating systems, refer to [Conky documentation](https://github.com/brndnmtthws/conky/wiki/Installation).
 
-To install LCC, just download the [ZIP](https://github.com/afimpel/lean-conky-config/archive/master.zip) and decompress it into any directory you like. Alternatively, clone the repository:
+To install LCC, just download the [ZIP](https://github.com/afimpel/myConky/archive/master.zip) and decompress it into any directory you like. Alternatively, clone the repository:
 ``` bash
-git clone https://github.com/afimpel/lean-conky-config [/path/to/lean-conky-config]
+git clone https://github.com/afimpel/myConky [/path/to/myConky]
 ```
 
 If `~/.config/conky` doesn't exist yet, you may simply use that path which is for the default Conky config.
 
 Now run
 ``` bash
-/path/to/lean-conky-config/start.sh
+/path/to/myConky/start.sh
 ```
 to start Conky. In a moment you should see the panel showing up, docked to the right side your desktop. If you have multiple monitors, the panel should appear on one of them.
 
@@ -34,12 +34,12 @@ You might notice the icons and LCD-style time in the screenshot above. LCC rende
 
 In case you prefer the plain font and simple layout, here's a workaround:
 ``` bash
-/path/to/lean-conky-config/font/install -u && \
+/path/to/myConky/font/install -u && \
 touch ~/.local/share/fonts/lean-conky-config.otf
 ```
 And to undo it:
 ``` bash
-/path/to/lean-conky-config/font/install -f
+/path/to/myConky/font/install -f
 ```
 
 ## Customization
