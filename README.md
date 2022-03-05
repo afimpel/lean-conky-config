@@ -1,4 +1,4 @@
-# myConky (v0.6.3r2) --> Fork [Lean Conky Config](https://github.com/jxai/lean-conky-config)
+# myConky (v0.6.4r2) --> Fork [Lean Conky Config](https://github.com/jxai/lean-conky-config)
 
 Lean Conky Config (LCC) is, well, a lean [Conky](https://github.com/brndnmtthws/conky/wiki) config that just works.
 

@@ -1,6 +1,9 @@
 #!/bin/bash
 if hash pactl 2>/dev/null; then
-    pactl list sinks | grep "Volume" | grep "front" -m 1 | cut -d '/' -f4
+   name=$(pactl list sinks |grep -A 20 "RUNNING" | grep "alsa.name" | cut -d '"' -f2)
+   volu=$(pactl list sinks |grep -A 20 "RUNNING" | grep "Volume" | grep "front" -m 1 | cut -d '/' -f4 | cut -d '%' -f1)
+   echo "${name}:	${volu}%"
 else
-    awk -F"[][]" '/dB/ { print $2 }' <(amixer sget Master)
+   volu=$(awk -F"[][]" '/dB/ { print $2 }' <(amixer sget Master))
+   echo "Master:	${volu}"
 fi
