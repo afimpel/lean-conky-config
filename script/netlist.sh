@@ -2,7 +2,7 @@
  for i in $(ls /sys/class/net/); do
     if grep -q "up" "/sys/class/net/${i}/operstate"
     then
-        ip=$(ip -4 -j -p addr show ${i} | grep local | cut -d '"' -f4)
+        ip=$(ip -4 addr show ${i} | grep inet | cut -d ' ' -f6)
         if [ ! -z "$ip" ]
             then
             if ! grep -q "=bridge" "/sys/class/net/${i}/uevent"
