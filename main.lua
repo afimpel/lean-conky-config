@@ -219,10 +219,10 @@ function conky_ifaces(interv)
 end
 
 local TPL_IP =
-	[[${lua font icon_x {}} ${lua font h6 {<IPADRESS>}}${font}]]
+	[[${lua font icon_x {}} ${lua font h5 {<IPADRESS>}}${font}]]
 
 local TPL_IPWIFI =
-	[[${lua font icon_x {}} ${lua font h6 {<IPADRESS>}}${font}]]
+	[[${lua font icon_x {}} ${lua font h5 {<IPADRESS>}}${font}]]
 
 local function _conky_getip()
 	local rendered = {}

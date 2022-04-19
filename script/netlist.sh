@@ -1,6 +1,6 @@
 #!/bin/bash
  for i in $(ls /sys/class/net/); do
-    if grep -Fxq "up" "/sys/class/net/${i}/operstate"
+    if grep -q "up" "/sys/class/net/${i}/operstate"
     then
         ip=$(ip -4 -j -p addr show ${i} | grep local | cut -d '"' -f4)
         if [ ! -z "$ip" ]

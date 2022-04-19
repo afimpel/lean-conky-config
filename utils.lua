@@ -56,21 +56,22 @@ function enum_disks()
 	if in_docker() then
 		fs_types = fs_types .. ",overlay"
 	end
-	local cmd = "findmnt -bPUno TARGET,FSTYPE,SIZE,USED,LABEL,SOURCE -t " .. fs_types
-	local entry_pattern = '^TARGET="(.+)"%s+FSTYPE="(.+)"%s+SIZE="(.+)"%s+USED="(.+)"%s+LABEL="(.+)"%s+SOURCE="(.+)"$'
+	local cmd = "findmnt -bPUno TARGET,FSTYPE,SIZE,USED,LABEL,SOURCE,AVAIL -t " .. fs_types
+	local entry_pattern = '^TARGET="(.+)"%s+FSTYPE="(.+)"%s+SIZE="(.+)"%s+USED="(.+)"%s+LABEL="(.+)"%s+SOURCE="(.+)"%s+AVAIL="(.+)"$'
 	local mnt_fs = sys_call(cmd)
 	local mnts = {}
 
 	for i, l in ipairs(mnt_fs) do
-		local mnt, type, size, used, label, source = l:match(entry_pattern)
+		local mnt, fstype, size, used, label, source, avail = l:match(entry_pattern)
 		if mnt and is_dir(mnt) and is_readable(mnt) and not mnt:match("^/boot/") and not mnt:match("^/run/live/") then
 			table.insert(
 				mnts,
 				{
 					mnt = mnt,
-					type = type,
+					type = fstype,
 					size = tonumber(size),
 					used = tonumber(used),
+					avail = tonumber(avail),
 					label = label,
 					source = source
 				}
