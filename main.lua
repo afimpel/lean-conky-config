@@ -310,6 +310,11 @@ function conky_disks(interv, parms)
 	return _interval_call(interv, _conky_disks)
 end
 
+function conky_disksC(interv, parms)
+	type_disk = parms
+	return #utils.enum_disks()
+end
+
 local TPL_core =
 [[${lua font h3 {${color}CPU<cores>:}}#
 ${alignc}${font} ${color2}${freq_g <cores>} Ghz #
