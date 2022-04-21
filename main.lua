@@ -73,7 +73,7 @@ end
 
 -- render top (cpu) line
 function conky_top_cpu_line(ord)
-	local _H = "${color2}${lua font h3 {PID ${goto 48}PROCESS ${goto 220}MEM% ${alignr}CPU%}}${font}${color}"
+	local _H = "${color2}${lua font h3 {PID ${goto 72}PROCESS ${goto 255}MEM% ${alignr}CPU%}}${font}${color}"
 	if ord == "header" then
 		return conky_parse(_H)
 	end
@@ -83,7 +83,7 @@ function conky_top_cpu_line(ord)
 	end
 	return conky_parse(
 		string.format(
-			"%s ${goto 48}%s${goto 220}%s${alignr}%s",
+			"%s ${goto 72}%s${goto 260}%s${alignr}%s",
 			_t("pid"),
 			_t("name"),
 			_t("mem"),
@@ -94,7 +94,7 @@ end
 
 -- render top_mem line
 function conky_top_mem_line(ord)
-	local _H = "${color2}${lua font h3 {PID ${goto 48}PROCESS ${goto 220}CPU%${alignr}MEM%}}${font}${color}"
+	local _H = "${color2}${lua font h3 {PID ${goto 72}PROCESS ${goto 255}CPU%${alignr}MEM%}}${font}${color}"
 	if ord == "header" then
 		return conky_parse(_H)
 	end
@@ -104,7 +104,7 @@ function conky_top_mem_line(ord)
 	end
 	return conky_parse(
 		string.format(
-			"%s ${goto 48}%s${goto 220}%s${alignr}%s",
+			"%s ${goto 72}%s${goto 260}%s${alignr}%s",
 			_t("pid"),
 			_t("name"),
 			_t("cpu"),
@@ -115,7 +115,7 @@ end
 
 -- render top_io line
 function conky_top_io_line(ord)
-	local _H = "${color2}${lua font h3 {PID ${goto 48}PROCESS ${alignr}READ/WRITE}}${font}${color}"
+	local _H = "${color2}${lua font h3 {PID ${goto 72}PROCESS ${alignr}READ/WRITE}}${font}${color}"
 	if ord == "header" then
 		return conky_parse(_H)
 	end
@@ -124,7 +124,7 @@ function conky_top_io_line(ord)
 		return _top_val(ord, "io", type)
 	end
 	return conky_parse(
-		string.format("%s ${goto 48}%s ${alignr}%s / %s", _t("name"), _t("pid"), _t("io_read"), _t("io_write"))
+		string.format("%s ${goto 72}%s ${alignr}%s / %s", _t("name"), _t("pid"), _t("io_read"), _t("io_write"))
 	)
 end
 
@@ -133,20 +133,20 @@ function conky_top_table(section, counts)
 		cpu = { 
 			c0='mem',
 			c1='cpu',
-			tpl = "%s ${goto 48}%s${goto 220}%s${alignr}%s",
-			header = "${color2}${lua font h3 {PID ${goto 48}PROCESS ${goto 220}MEM% ${alignr}CPU%}}${font}${color}"
+			tpl = "%s ${goto 72}%s${goto 260}%s${alignr}%s",
+			header = "${color2}${lua font h3 {PID ${goto 72}PROCESS ${goto 255}MEM% ${alignr}CPU%}}${font}${color}"
 		},
 		mem = {
 			c0 = 'cpu',
 			c1 = 'mem',
-			tpl = "%s ${goto 48}%s${goto 220}%s${alignr}%s",
-			header = "${color2}${lua font h3 {PID ${goto 48}PROCESS ${goto 220}CPU%${alignr}MEM%}}${font}${color}"
+			tpl = "%s ${goto 72}%s${goto 260}%s${alignr}%s",
+			header = "${color2}${lua font h3 {PID ${goto 72}PROCESS ${goto 255}CPU%${alignr}MEM%}}${font}${color}"
 		},
 		io = {
 			c0='io_read',
 			c1='io_write',
-			tpl = "%s ${goto 48}%s${alignr}%s / %s",
-			header = "${color2}${lua font h3 {PID ${goto 48}PROCESS ${alignr}READ / WRITE}}${font}${color}"
+			tpl = "%s ${goto 72}%s${alignr}%s / %s",
+			header = "${color2}${lua font h3 {PID ${goto 72}PROCESS ${alignr}READ / WRITE}}${font}${color}"
 		},
 	}
 	local function _t(ord, type, padding_len)
@@ -246,11 +246,11 @@ end
 
 -- dynamically show mounted disks
 local TPL_DISK =
-	[[${lua font icon_l { ${voffset -3}} {}} ${lua font h2 {%s}}${font} ${alignc -80}%s / %s [ ${lua font h5bold {%s}}${font} ] ${alignr}${color0}%s%%${color}
+	[[${color8}${lua font icon_l { ${voffset -3}} {}}${color} ${lua font h2 {%s}}${font} ${alignc -80}%s / %s [ ${color1}${lua font h5bold {%s}}${font}${color} ] ${alignr}${color0}%s%%${color}
 ${lua font h6 {${voffset 3} %s}}${font}${alignr}${lua font h6 {%s}}${font}
 ${color3}${lua_bar 4 percent_ratio %s %s}${color}]]
 local TPL_DISKmini =
-	[[${lua font icon_x {} {}} ${lua font h4 {%s}}${font} ( ${lua font h6 {%s}}${font}${voffset -1} ) ${alignc -80}%s / %s [ ${lua font h5bold {%s}}${font} ] ${alignr}${color0}%s%%${color}]]
+	[[${color8}${lua font icon_x {} {}}${color} ${lua font h4 {%s}}${font} ( ${lua font h6 {%s}}${font}${voffset -1} ) ${alignc -80}%s / %s [ ${color1}${lua font h5bold {%s}}${font}${color} ] ${alignr}${color0}%s%%${color}]]
 local type_disk = "full"
 
 local function _conky_disks()

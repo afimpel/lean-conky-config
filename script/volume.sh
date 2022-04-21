@@ -6,9 +6,9 @@ if hash pactl 2>/dev/null; then
    then
       echo "\${alignc}${name}\${alignr}\${color2}${volu}"
    else
-      echo '${alignr}Muted'
+      echo '${alignr}Muted '
    fi
 else
-   volu=$(awk -F"[][]" '/dB/ { print $2 }' <(amixer sget Master))
+   volu=$(awk -F"[][]" '/dB/ { print $2; exit }' <(amixer sget Master))
    echo "\${alignc}Master:	\${alignr}\${color2}${volu}"
 fi
