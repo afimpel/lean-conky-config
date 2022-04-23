@@ -4,7 +4,7 @@ if [ ! -z "$ip" ]
 then
     echo ${ip}
 else
-    /usr/bin/notify-send "RED:" "!!! NO Internet !!!" -i network-error -t 8000
-    echo '!!! NO Internet !!!'
+#    /usr/bin/notify-send "RED:" "!!! NO Internet !!!" -i network-error -t 8000
+    echo '${color4}!!! NO Internet !!!'
 fi
 
