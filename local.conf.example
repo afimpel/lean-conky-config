@@ -14,7 +14,9 @@ local_config = {
     color7 = "white",
     color8 = "white",
     color9 = "#111111",
-    default_color = "white" -- text color
+    default_color = "white", -- text color
+    default_outline_color = "#666666",
+    default_shade_color = "#111111"
 }
 
 -- override `conky.fonts` here
